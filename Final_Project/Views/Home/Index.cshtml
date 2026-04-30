@@ -1,8 +1,206 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "AI Learning Hub";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<link rel="stylesheet" href="~/css/modern.css" asp-append-version="true" />
+
+<header class="py-5 hero-modern mb-5 position-relative overflow-hidden">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="container px-5 position-relative z-index-1">
+        <div class="row gx-5 align-items-center justify-content-center text-center">
+            <div class="col-lg-10">
+                <div class="my-5">
+                    <h1 class="display-3 fw-bold mb-3 text-white">Unlock Your Potential with AI Tutoring</h1>
+                    <p class="lead fw-normal mb-5 text-white-50 mx-auto" style="max-width: 800px;">
+                        The ultimate destination for students and professors to master concepts with personalized AI assistance. Learn smarter, faster, and more effectively.
+                    </p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-primary btn-lg px-5 text-uppercase fw-bold rounded-pill shadow-lg modern-btn" asp-area="Identity" asp-page="/Account/Register">Get Started</a>
+                        <a class="btn btn-link btn-lg px-5 modern-btn-secondary" href="#features">Learn More <i class="bi bi-arrow-right-short ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="py-5 bg-modern-section" id="features">
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="glass-card feature-card h-100 p-5 rounded-4 shadow-sm text-center">
+                    <div class="feature-icon-container bg-primary-gradient text-white rounded-circle mb-4 shadow-sm mx-auto">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <h2 class="h4 fw-bold mb-3">AI Concept Explainer</h2>
+                    <p class="text-muted-modern">Instant, simplified explanations for complex topics. Simply enter a concept and let our advanced AI break it down for you.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="glass-card feature-card h-100 p-5 rounded-4 shadow-sm text-center">
+                    <div class="feature-icon-container bg-success-gradient text-white rounded-circle mb-4 shadow-sm mx-auto">
+                        <i class="bi bi-list-check"></i>
+                    </div>
+                    <h2 class="h4 fw-bold mb-3">Interactive Quizzes</h2>
+                    <p class="text-muted-modern">Professors can build tailored quizzes, and students receive dynamic, immediate feedback on their performance.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card feature-card h-100 p-5 rounded-4 shadow-sm text-center">
+                    <div class="feature-icon-container bg-info-gradient text-white rounded-circle mb-4 shadow-sm mx-auto">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+                    <h2 class="h4 fw-bold mb-3">Performance Analytics</h2>
+                    <p class="text-muted-modern">Beautiful ChartJS dashboards tracking your learning journey, subject mastery, and class-wide trends at a glance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<aside class="py-5 cta-modern text-white shadow-lg">
+    <div class="container px-5 my-5 text-center">
+        <h2 class="display-5 fw-bold mb-3">Ready to Elevate Your Learning?</h2>
+        <p class="lead fw-normal mb-5 text-white-50 mx-auto" style="max-width: 700px;">
+            Professor or student, we have the tools you need to succeed in the modern classroom.
+        </p>
+        <a class="btn btn-light btn-lg px-5 text-uppercase fw-bold rounded-pill modern-btn-inverse shadow-lg" asp-area="Identity" asp-page="/Account/Register">Sign Up Now</a>
+    </div>
+</aside>
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
+        --secondary-gradient: linear-gradient(135deg, #212529 0%, #44494d 100%);
+        --hero-bg: #1a1e22;
+        --modern-section-bg: #f8f9fa;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.3);
+        --primary-btn-gradient: linear-gradient(135deg, #0d6efd 0%, #0099cc 100%);
+        --success-gradient: linear-gradient(135deg, #28a745 0%, #66ff33 100%);
+        --info-gradient: linear-gradient(135deg, #17a2b8 0%, #00ffff 100%);
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: #333;
+    }
+
+    .hero-modern {
+        background-color: var(--hero-bg);
+        color: white;
+    }
+
+    .bg-modern-section {
+        background-color: var(--modern-section-bg);
+    }
+
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        transition: all 0.3s ease;
+    }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0,0,0,0.075);
+        }
+
+    .shape {
+        position: absolute;
+        opacity: 0.1;
+        border-radius: 50%;
+    }
+
+    .shape-1 {
+        background: var(--primary-gradient);
+        width: 300px;
+        height: 300px;
+        top: -50px;
+        left: -50px;
+    }
+
+    .shape-2 {
+        background: var(--primary-gradient);
+        width: 400px;
+        height: 400px;
+        bottom: -100px;
+        right: -100px;
+    }
+
+    .modern-btn {
+        background: var(--primary-btn-gradient);
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .modern-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1.5rem rgba(13, 110, 253, 0.4);
+        }
+
+    .modern-btn-secondary {
+        color: #eee;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+        .modern-btn-secondary:hover {
+            color: white;
+        }
+
+    .cta-modern {
+        background: var(--primary-gradient);
+    }
+
+    .modern-btn-inverse {
+        background: white;
+        color: #0d6efd;
+        border: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .modern-btn-inverse:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+        }
+
+    .feature-card {
+        border: none;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+    .feature-icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+
+    .bg-primary-gradient {
+        background: var(--primary-gradient);
+    }
+
+    .bg-success-gradient {
+        background: var(--success-gradient);
+    }
+
+    .bg-info-gradient {
+        background: var(--info-gradient);
+    }
+
+    .text-muted-modern {
+        color: #777;
+    }
+</style>
