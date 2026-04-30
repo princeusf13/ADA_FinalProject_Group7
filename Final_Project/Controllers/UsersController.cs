@@ -17,9 +17,11 @@ namespace Final_Project.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // Fetch all users from the database
+            var users = _userManager.Users.ToList();
+            return View(users);
         }
 
         public IActionResult Create() => View();
