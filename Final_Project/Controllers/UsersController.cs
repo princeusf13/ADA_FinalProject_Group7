@@ -21,7 +21,24 @@ namespace Final_Project.Controllers
         {
             // Fetch all users from the database
             var users = _userManager.Users.ToList();
-            return View(users);
+            var userList = new List<UserListViewModel>();
+
+            foreach (var user in users)
+            {
+                // Get roles for the current user
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userList.Add(new UserListViewModel
+                {
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Roles = string.Join(", ", roles)
+                });
+            }
+
+            return View(userList);
         }
 
         public IActionResult Create() => View();

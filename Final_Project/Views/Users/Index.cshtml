@@ -1,17 +1,18 @@
-﻿@model IEnumerable<Final_Project.Areas.Identity.Data.ApplicationUser>
+﻿@model IEnumerable<Final_Project.Models.UserListViewModel>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>User Management</h2>
     <a asp-action="Create" class="btn btn-success">Add New User</a>
 </div>
 
-<table class="table table-striped">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Roles</th>
+            <th>Actions</th> @* Added for the next step! *@
         </tr>
     </thead>
     <tbody>
@@ -22,8 +23,23 @@
                 <td>@user.LastName</td>
                 <td>@user.Email</td>
                 <td>
-                    @* We will fetch roles here later or display a placeholder *@
-                    <span class="badge bg-info text-dark">User</span>
+                    @if (user.Roles.Contains("Admin"))
+                    {
+                        <span class="badge bg-danger">@user.Roles</span>
+                    }
+                    else if (user.Roles.Contains("Professor"))
+                    {
+                        <span class="badge bg-primary">@user.Roles</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@user.Roles</span>
+                    }
+                </td>
+                <td>
+                    @* Placeholder for Edit/Delete buttons *@
+                    <button class="btn btn-sm btn-outline-warning">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
                 </td>
             </tr>
         }
