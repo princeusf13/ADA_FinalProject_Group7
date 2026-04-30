@@ -2,9 +2,11 @@
 using Final_Project.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Final_Project.Controllers
 {
+    [Authorize(Roles = "Admin")] 
     public class UsersController : Controller
     {
 
