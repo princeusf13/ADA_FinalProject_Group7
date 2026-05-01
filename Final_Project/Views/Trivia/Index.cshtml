@@ -1,0 +1,91 @@
+﻿<div class="container mt-5" style="max-width: 700px;">
+    <div id="setup-area" class="glass-card p-5 rounded-4 shadow text-center">
+        <h2 class="fw-bold mb-3">Computer Trivia Challenge</h2>
+        <p class="text-muted">Test your knowledge with 10 random questions from the OpenTrivia API.</p>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="alert alert-warning border-0 shadow-sm mb-4">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <strong>Notice:</strong> You are not logged in. Your score will not be saved to your profile.
+            </div>
+        }
+
+        <button onclick="startQuiz()" class="btn btn-primary btn-lg rounded-pill px-5">Start Quiz</button>
+    </div>
+
+    <div id="quiz-area" class="glass-card p-5 rounded-4 shadow" style="display:none;">
+        <div class="d-flex justify-content-between mb-4">
+            <span class="badge bg-secondary" id="progress-text">Question 1/10</span>
+            <span class="badge bg-primary" id="score-text">Score: 0</span>
+        </div>
+
+        <h4 id="question-text" class="fw-bold mb-4"></h4>
+        <div id="options-list" class="d-grid gap-2"></div>
+    </div>
+
+    <div id="result-area" class="glass-card p-5 rounded-4 shadow text-center" style="display:none;">
+        <h2 class="fw-bold text-success mb-3">Quiz Completed!</h2>
+        <h1 class="display-1 fw-bold" id="final-score">0</h1>
+        <p class="lead mb-4">Your final score out of 10</p>
+        <a asp-action="Index" class="btn btn-outline-primary rounded-pill px-4">Try Again</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let questions = [];
+        let currentIdx = 0;
+        let score = 0;
+
+        async function startQuiz() {
+            const res = await fetch('/Trivia/GetQuestions');
+            questions = await res.json();
+
+            document.getElementById('setup-area').style.display = 'none';
+            document.getElementById('quiz-area').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('progress-text').innerText = `Question ${currentIdx + 1}/10`;
+            document.getElementById('question-text').innerHTML = q.question; // API returns HTML entities
+
+            const options = [...q.incorrect_Answers, q.correct_Answer].sort(() => Math.random() - 0.5);
+            const list = document.getElementById('options-list');
+            list.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-outline-dark text-start py-3 px-4 rounded-3 border-2';
+                btn.innerHTML = opt;
+                btn.onclick = () => checkAnswer(opt, q.correct_Answer);
+                list.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                score++;
+                document.getElementById('score-text').innerText = `Score: ${score}`;
+            }
+
+            currentIdx++;
+            if (currentIdx < questions.length) {
+                showQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        async function finishQuiz() {
+            document.getElementById('quiz-area').style.display = 'none';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+
+            // Save to DB via AJAX
+            await fetch(`/Trivia/SaveScore?score=${score}`, { method: 'POST' });
+        }
+    </script>
+}
