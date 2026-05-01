@@ -1,0 +1,25 @@
+﻿@model Final_Project.Models.Material
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="glass-card border-danger p-5 rounded-4 shadow">
+                <h3 class="text-danger fw-bold mb-3"><i class="bi bi-trash3-fill"></i> Delete Material?</h3>
+                <p>You are about to remove <strong>@Model.Title</strong>.</p>
+
+                <div class="bg-light p-3 rounded-3 mb-4">
+                    <div class="small text-muted">Topic: @Model.Topic?.Name</div>
+                    <div class="small text-muted">Type: @Model.MaterialType</div>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="MaterialID" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill">Confirm Delete</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill">Keep it</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

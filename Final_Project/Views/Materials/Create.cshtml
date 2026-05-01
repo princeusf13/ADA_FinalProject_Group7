@@ -1,0 +1,214 @@
+﻿@model Final_Project.Models.Material
+
+@{
+    ViewData["Title"] = "Create Learning Material";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="glass-card p-5 rounded-4 shadow-lg border-0">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-dark">Publish New Material</h2>
+                    <p class="text-muted">Create assignments or quizzes and link them to your curriculum.</p>
+                </div>
+
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-10">
+                            <div class="form-floating shadow-sm">
+                                <select id="courseSelect" class="form-select border-0" asp-items="ViewBag.CourseID">
+                                    <option value="">-- Choose an Existing Course --</option>
+                                </select>
+                                <label>Parent Course</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary w-100 py-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#courseModal">
+                                <i class="bi bi-plus-circle-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-10">
+                            <div class="form-floating shadow-sm">
+                                <select asp-for="TopicID" id="topicSelect" class="form-select border-0" asp-items="ViewBag.TopicID" disabled>
+                                    <option value="">-- Choose a Topic --</option>
+                                </select>
+                                <label asp-for="TopicID">Course Topic</label>
+                            </div>
+                            <span asp-validation-for="TopicID" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success w-100 py-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#topicModal">
+                                <i class="bi bi-plus-circle-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="form-floating mb-3 shadow-sm">
+                        <input asp-for="Title" class="form-control border-0" placeholder="Title" />
+                        <label asp-for="Title">Material Title (e.g. Week 1 Assignment)</label>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3 shadow-sm">
+                        <textarea asp-for="Description" class="form-control border-0" style="height: 120px" placeholder="Details"></textarea>
+                        <label asp-for="Description">Instructions / Task Details</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="form-floating shadow-sm">
+                                <select asp-for="MaterialType" class="form-select border-0">
+                                    <option value="Assignment">Assignment</option>
+                                    <option value="Quiz">Quiz</option>
+                                </select>
+                                <label asp-for="MaterialType">Type</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-floating shadow-sm">
+                                <input asp-for="Points" class="form-control border-0" type="number" />
+                                <label asp-for="Points">Total Points</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-floating shadow-sm">
+                                <input asp-for="DueDate" class="form-control border-0" type="datetime-local" />
+                                <label asp-for="DueDate">Due Date</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100 py-3 shadow">
+                            <i class="bi bi-cloud-arrow-up-fill me-2"></i> Publish to Students
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="courseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title fw-bold">New Course</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Course Title</label>
+                    <input type="text" id="newCourseName" class="form-control rounded-3" placeholder="e.g. Intro to ML" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Course Description</label>
+                    <textarea id="newCourseDescription" class="form-control rounded-3" rows="3" placeholder="Briefly describe the course..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary rounded-pill px-4" onclick="saveCourse()">Save Course</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="topicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-success text-white rounded-top-4">
+                <h5 class="modal-title fw-bold">New Topic</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Topic Name</label>
+                    <input type="text" id="newTopicName" class="form-control rounded-3" placeholder="e.g. Neural Networks" />
+                </div>
+                <div class="alert alert-info border-0 py-2 small">
+                    This topic will be added to the course currently selected in the form.
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success rounded-pill px-4" onclick="saveTopic()">Save Topic</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Initially disable topic select if no course is selected
+            if (!$('#courseSelect').val()) {
+                $('#topicSelect').prop('disabled', true);
+            }
+
+            // Listen for changes on the Course Dropdown
+            $('#courseSelect').change(function () {
+                var courseId = $(this).val();
+                var $topicSelect = $('#topicSelect');
+
+                // Clear current topics
+                $topicSelect.empty().append('<option value="">-- Choose a Topic --</option>');
+
+                if (courseId) {
+                    // Fetch topics for the selected course
+                    $.getJSON('/CourseTopics/GetTopicsByCourse', { courseId: courseId }, function (data) {
+                        $.each(data, function (index, item) {
+                            $topicSelect.append(new Option(item.name, item.id));
+                        });
+                        $topicSelect.prop('disabled', false); // Enable it
+                    });
+                } else {
+                    $topicSelect.prop('disabled', true); // Disable if course is cleared
+                }
+            });
+        });
+
+        function saveCourse() {
+            let name = document.getElementById('newCourseName').value;
+            let desc = document.getElementById('newCourseDescription').value;
+
+            if (!name) { alert("Course Name is required!"); return; }
+
+            $.post('/Courses/QuickCreate', { name: name, description: desc }, function (data) {
+                let option = new Option(data.name, data.id, true, true);
+                $('#courseSelect').append(option).trigger('change'); // Triggering change handles the topic logic
+                $('#courseModal').modal('hide');
+                document.getElementById('newCourseName').value = "";
+                document.getElementById('newCourseDescription').value = "";
+            });
+        }
+
+        function saveTopic() {
+            let name = document.getElementById('newTopicName').value;
+            let courseId = $('#courseSelect').val();
+
+            if (!name) { alert("Topic Name is required!"); return; }
+            if (!courseId) { alert("Select a Course first!"); return; }
+
+            $.post('/CourseTopics/QuickCreate', { name: name, courseId: courseId }, function (data) {
+                let option = new Option(data.name, data.id, true, true);
+                $('#topicSelect').append(option).trigger('change');
+                $('#topicModal').modal('hide');
+                document.getElementById('newTopicName').value = "";
+            });
+        }
+    </script>
+}

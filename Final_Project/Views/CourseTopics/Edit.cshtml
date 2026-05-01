@@ -1,0 +1,30 @@
+﻿@model Final_Project.Models.CourseTopic
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="glass-card p-5 rounded-4 shadow">
+                <h2 class="fw-bold mb-4">Edit Topic</h2>
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="TopicID" />
+
+                    <div class="form-floating mb-3">
+                        <select asp-for="CourseID" class="form-select" asp-items="ViewBag.CourseID"></select>
+                        <label asp-for="CourseID">Parent Course</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" placeholder="Topic Name" />
+                        <label asp-for="Name">Topic Name</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg rounded-pill fw-bold">Update Topic</button>
+                        <a asp-action="Index" class="btn btn-link text-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

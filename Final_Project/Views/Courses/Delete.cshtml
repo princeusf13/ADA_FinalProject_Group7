@@ -1,0 +1,31 @@
+﻿@model Final_Project.Models.Course
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="glass-card border-danger p-5 rounded-4 shadow">
+                <h2 class="text-danger fw-bold mb-4"><i class="bi bi-exclamation-triangle-fill"></i> Warning!</h2>
+                <p class="lead">Are you sure you want to delete the course: <strong>@Model.Name</strong>?</p>
+
+                <div class="alert alert-danger bg-opacity-10 border-danger text-danger">
+                    <p class="mb-0">
+                        <strong>Impact:</strong> Deleting this course will automatically remove:
+                    </p>
+                    <ul class="mt-2">
+                        <li>All related <strong>Course Topics</strong></li>
+                        <li>All <strong>Assignments, Quizzes, and Materials</strong> linked to those topics.</li>
+                    </ul>
+                    <p class="small mb-0 italic">This action cannot be undone.</p>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="CourseID" />
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill">Yes, Delete Everything</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill">Cancel and Keep Course</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

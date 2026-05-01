@@ -1,0 +1,25 @@
+﻿@model Final_Project.Models.CourseTopic
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="glass-card border-danger p-5 rounded-4 shadow">
+                <h2 class="text-danger fw-bold mb-4"><i class="bi bi-exclamation-octagon"></i> Confirm Deletion</h2>
+                <p class="lead">Remove topic: <strong>@Model.Name</strong>?</p>
+                <p class="text-muted small">Part of course: @Model.Course.Name</p>
+
+                <div class="alert alert-danger bg-opacity-10 border-danger text-danger">
+                    <p class="mb-0"><strong>Warning:</strong> All assignments/materials under this topic will be permanently removed.</p>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="TopicID" />
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill">Confirm Delete</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

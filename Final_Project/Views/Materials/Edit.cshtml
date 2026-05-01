@@ -1,0 +1,53 @@
+﻿@model Final_Project.Models.Material
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="glass-card p-5 rounded-4 shadow border-0">
+                <h2 class="fw-bold mb-2">Edit Details</h2>
+                <p class="text-muted mb-4">Updating: <span class="badge bg-secondary">@Model.Title</span></p>
+
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="MaterialID" />
+
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <label class="small text-uppercase fw-bold text-muted">Course</label>
+                            <p>@Model.Topic?.Course?.Name</p>
+                        </div>
+                        <div class="col-6">
+                            <label class="small text-uppercase fw-bold text-muted">Topic</label>
+                            <p>@Model.Topic?.Name</p>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3 shadow-sm">
+                        <textarea asp-for="Description" class="form-control border-0" style="height: 150px" placeholder="Instructions">@Model.Description</textarea>
+                        <label asp-for="Description">Update Instructions</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating shadow-sm">
+                                <input asp-for="Points" class="form-control border-0" type="number" />
+                                <label asp-for="Points">Points</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating shadow-sm">
+                                <input asp-for="DueDate" class="form-control border-0" type="datetime-local" />
+                                <label asp-for="DueDate">Due Date</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg rounded-pill fw-bold shadow">Save Changes</button>
+                        <a asp-action="Index" class="btn btn-link text-secondary">Cancel and Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

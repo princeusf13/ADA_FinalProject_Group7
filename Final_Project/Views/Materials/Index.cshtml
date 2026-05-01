@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Final_Project.Models.Material>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">Learning Materials</h2>
+        <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
+            <i class="bi bi-plus-lg"></i> New Material
+        </a>
+    </div>
+
+    <div class="glass-card p-3 mb-4 rounded-4 shadow-sm">
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <select name="courseFilter" class="form-select border-0 shadow-sm" asp-items="ViewBag.Courses" onchange="this.form.submit()">
+                    <option value="">-- All Courses --</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <a asp-action="Index" class="btn btn-outline-secondary w-100 border-0">Reset</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="glass-card rounded-4 shadow-sm overflow-hidden">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="bg-light">
+                <tr>
+                    <th class="ps-4">Course & Topic</th>
+                    <th>Material Title</th>
+                    <th>Due Date</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-bold">@item.Topic?.Course?.Name</div>
+                            <div class="small text-muted">@item.Topic?.Name</div>
+                        </td>
+                        <td>
+                            <span class="badge @(item.MaterialType == "Quiz" ? "bg-warning text-dark" : "bg-info text-dark") me-2">
+                                @item.MaterialType
+                            </span>
+                            @item.Title
+                        </td>
+                        <td>@(item.DueDate?.ToString("MMM dd, yyyy") ?? "No Deadline")</td>
+                        <td class="text-end pe-4">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#details-@item.MaterialID">
+                                <i class="bi bi-info-circle"></i> Info
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="collapse border-0 bg-light bg-opacity-50" id="details-@item.MaterialID">
+                        <td colspan="4" class="p-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6><strong>Description / Instructions:</strong></h6>
+                                    <p class="text-secondary">@item.Description</p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <p><strong>Points:</strong> @item.Points</p>
+                                    <p><strong>Created:</strong> @item.CreatedAt.ToShortDateString()</p>
+                                    <div class="mt-3">
+                                        <a asp-action="Edit" asp-route-id="@item.MaterialID" class="btn btn-sm btn-warning">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@item.MaterialID" class="btn btn-sm btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link shadow-sm border-0 mx-1 rounded"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-courseFilter="@ViewBag.SelectedCourse">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

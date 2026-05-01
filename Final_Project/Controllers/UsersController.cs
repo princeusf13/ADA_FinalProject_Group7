@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Final_Project.Controllers
 {
-    [Authorize(Roles = "Admin")] 
+    
     public class UsersController : Controller
     {
 
@@ -83,5 +83,53 @@ namespace Final_Project.Controllers
             }
             return View(model);
         }
+
+        // GET: Users/AddAdmin
+        public IActionResult AddAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAdmin(string email, string password, string firstName, string lastName)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    EmailConfirmed = true // Auto-confirm for internal admins
+                };
+
+                var result = await _userManager.CreateAsync(user, password);
+
+                if (result.Succeeded)
+                {
+                    // Ensure the Admin role exists
+                    if (!await _roleManager.RoleExistsAsync("Admin"))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                    }
+
+                    // Assign the Role
+                    await _userManager.AddToRoleAsync(user, "Admin");
+
+                    return RedirectToAction("Index", "Home"); // Or wherever your user list is
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return View();
+        }
+
+
+
     }
 }

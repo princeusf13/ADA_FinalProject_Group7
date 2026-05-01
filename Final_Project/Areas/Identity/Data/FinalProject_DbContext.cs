@@ -1,4 +1,5 @@
 ﻿using Final_Project.Areas.Identity.Data;
+using Final_Project.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,10 @@ public class FinalProject_DbContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
+
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<CourseTopic> CourseTopics { get; set; }
+    public DbSet<Material> Materials { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
