@@ -56,6 +56,22 @@
                 color: #0d6efd;
                 transform: translateX(5px);
             }
+
+        
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .hover-primary:hover {
+            color: #0d6efd !important;
+            transform: translateY(-2px);
+        }
+
+        .transition-all {
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -80,7 +96,7 @@
                             <a class="nav-link fw-semibold text-secondary px-3" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-semibold text-secondary px-3" asp-area="" asp-controller="Home" asp-action="Privacy">Analytics</a>
+                            <a class="nav-link fw-semibold text-secondary px-3" asp-area="" asp-controller="Analytics" asp-action="Index">Analytics</a>
                         </li>
 
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -137,9 +153,19 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="mt-auto py-4">
         <div class="container">
-            &copy; 2026 - Final_Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="glass-card border-0 py-3 px-4 shadow-sm d-flex justify-content-between align-items-center">
+                <div class="text-muted small">
+                    &copy; 2026 <span class="fw-bold text-primary ms-1">AI Tutor Platform</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="text-muted small me-3">Built with .NET 10 & Azure</span>
+                    <a href="#" class="text-secondary hover-primary transition-all">
+                        <i class="bi bi-arrow-up-circle-fill fs-5"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

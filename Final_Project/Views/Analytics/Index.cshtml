@@ -1,0 +1,107 @@
+﻿@model Final_Project.Models.AnalyticsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Final_Project.Areas.Identity.Data.ApplicationUser> SignInManager
+@inject UserManager<Final_Project.Areas.Identity.Data.ApplicationUser> UserManager
+
+<div class="container mt-5">
+    <h2 class="fw-bold mb-4">Learning & Performance Analytics</h2>
+
+    <div class="row g-4">
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="col-12">
+                <div class="glass-card p-4 rounded-4 shadow-sm">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-graph-up text-primary"></i> Your Recent Trivia Performance</h5>
+                    <div style="height: 300px;">
+                        <canvas id="personalChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        }
+
+        
+
+        <div class="col-md-6">
+            <div class="glass-card p-4 rounded-4 shadow-sm h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-trophy text-warning"></i> Global Leaderboard</h5>
+                <table class="table table-borderless align-middle">
+                    <thead class="text-muted small">
+                        <tr><th>Rank</th><th>User</th><th class="text-end">Total Pts</th></tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Leaderboard.Count; i++)
+                        {
+                            <tr>
+                                <td><span class="badge rounded-circle @(i == 0 ? "bg-warning" : "bg-light text-dark")">@(i + 1)</span></td>
+                                <td class="fw-semibold">@Model.Leaderboard[i].Name</td>
+                                <td class="text-end">@Model.Leaderboard[i].TotalScore</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="glass-card p-4 rounded-4 shadow-sm h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-diagram-3 text-success"></i> Topics per Course</h5>
+                <canvas id="topicsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6 offset-md-3">
+            <div class="glass-card p-4 rounded-4 shadow-sm">
+                <h5 class="fw-bold mb-3 text-center">Content Distribution</h5>
+                <canvas id="materialsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 1. Personal Line Chart
+        new Chart(document.getElementById('personalChart'), {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.PersonalDates)),
+                datasets: [{
+                    label: 'Score (out of 10)',
+                    data: @Html.Raw(Json.Serialize(Model.PersonalScores)),
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // 2. Topics Bar Chart
+        new Chart(document.getElementById('topicsChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.TopicsPerCourse.Select(x => x.Label))),
+                datasets: [{
+                    label: 'Number of Topics',
+                    data: @Html.Raw(Json.Serialize(Model.TopicsPerCourse.Select(x => x.Value))),
+                    backgroundColor: '#198754'
+                }]
+            }
+        });
+
+        // 3. Materials Pie Chart
+        new Chart(document.getElementById('materialsChart'), {
+            type: 'doughnut',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.MaterialsByType.Select(x => x.Label))),
+                datasets: [{
+                    data: @Html.Raw(Json.Serialize(Model.MaterialsByType.Select(x => x.Value))),
+                    backgroundColor: ['#0dcaf0', '#ffc107']
+                }]
+            }
+        });
+    </script>
+}
