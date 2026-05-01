@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "AI Learn - Focused Tutoring";
+}
+
+<div class="container mt-5">
+    <div class="glass-card p-5 rounded-5 shadow-lg border-0 text-center mb-5 overflow-hidden position-relative">
+        <div class="position-relative z-index-1">
+            <span class="badge bg-primary-gradient rounded-pill px-3 py-2 mb-3 shadow-sm">AI-POWERED EDUCATION</span>
+            <h1 class="display-4 fw-bold mb-3">Your Personalized <span class="text-primary">AI Tutor</span></h1>
+            <p class="lead text-muted mx-auto mb-4" style="max-width: 700px;">
+                Experience a revolutionary way to study. Our AI doesn't just give answers, it understands your curriculum, stays within your course limits, and guides you through every topic step-by-step.
+            </p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a asp-action="Tutor" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg fw-bold py-3 modern-btn">
+                    Start Learning Now <i class="bi bi-lightning-charge-fill ms-2"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="bg-primary opacity-10 position-absolute rounded-circle" style="width: 300px; height: 300px; top: -100px; right: -100px;"></div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="glass-card p-4 rounded-4 h-100 shadow-sm border-0 text-center">
+                <div class="feature-icon bg-info bg-opacity-10 text-info mb-3 mx-auto">
+                    <i class="bi bi-target"></i>
+                </div>
+                <h4 class="fw-bold">Course-Specific</h4>
+                <p class="text-muted">No more irrelevant information. The AI stays strictly within the boundaries of your selected Course and Topic.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-4 rounded-4 h-100 shadow-sm border-0 text-center">
+                <div class="feature-icon bg-success bg-opacity-10 text-success mb-3 mx-auto">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h4 class="fw-bold">Assignment Guided</h4>
+                <p class="text-muted">Stuck on a specific task? Use your assignments as the foundation for deep-dive learning sessions.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-4 rounded-4 h-100 shadow-sm border-0 text-center">
+                <div class="feature-icon bg-warning bg-opacity-10 text-warning mb-3 mx-auto">
+                    <i class="bi bi-chat-left-text"></i>
+                </div>
+                <h4 class="fw-bold">Safe Environment</h4>
+                <p class="text-muted">Ask anything without judgment. Our AI tutor is designed to encourage curiosity and critical thinking.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        border-radius: 15px;
+    }
+
+    .modern-btn {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .modern-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 1rem 3rem rgba(13, 110, 253, 0.3);
+    }
+</style>

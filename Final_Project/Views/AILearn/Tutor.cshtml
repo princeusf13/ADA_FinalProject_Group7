@@ -1,0 +1,151 @@
+﻿<div class="container mt-5" style="max-width: 800px;">
+
+    <div id="step1" class="glass-card p-5 rounded-4 shadow text-center">
+        <h2 class="fw-bold mb-4">What would you like to learn today?</h2>
+        <div class="form-floating mb-4">
+            <select id="courseSelect" class="form-select border-0 shadow-sm" asp-items="ViewBag.CourseID">
+                <option value="">-- Select a Course --</option>
+            </select>
+            <label>Select Course</label>
+        </div>
+        <button id="btnToStep2" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow" disabled>Next <i class="bi bi-chevron-right"></i></button>
+    </div>
+
+    <div id="step2" class="glass-card p-5 rounded-4 shadow text-center" style="display:none;">
+        <h2 class="fw-bold mb-4 text-primary">Great choice! Now pick a topic.</h2>
+        <div class="form-floating mb-4">
+            <select id="topicSelect" class="form-select border-0 shadow-sm" disabled>
+                <option value="">-- Select Topic --</option>
+            </select>
+            <label>Select Topic</label>
+        </div>
+        <button id="btnToStep3" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow" disabled>Next <i class="bi bi-chevron-right"></i></button>
+    </div>
+
+    <div id="step3" class="glass-card p-5 rounded-4 shadow text-center" style="display:none;">
+        <h2 class="fw-bold mb-4">Finally, which assignment?</h2>
+        <div class="list-group shadow-sm text-start" id="assignmentList">
+        </div>
+    </div>
+
+    <div id="step4" class="glass-card p-5 rounded-4 shadow text-center text-white bg-primary-gradient" style="display:none;">
+        <h4 class="mb-3">Focusing on your task:</h4>
+        <div class="bg-white text-dark p-4 rounded-4 mb-4 shadow-sm text-start">
+            <h5 id="previewTitle" class="fw-bold"></h5>
+            <p id="previewDesc" class="mb-0"></p>
+        </div>
+        <p class="small opacity-75">Preparing your AI Tutor... setting context limits...</p>
+        <div class="spinner-border text-light mt-3" role="status"></div>
+    </div>
+
+    <div id="chatbot" class="glass-card rounded-4 shadow-lg overflow-hidden" style="display:none; height: 600px;">
+        <div class="bg-dark text-white p-3 d-flex align-items-center">
+            <div class="bg-primary rounded-circle p-2 me-2"><i class="bi bi-robot"></i></div>
+            <div>
+                <h6 class="mb-0" id="chatHeaderTitle">AI Tutor</h6>
+                <small class="text-success">Online | Learning Mode Active</small>
+            </div>
+        </div>
+        <div class="p-4 overflow-auto bg-light" style="height: 460px;" id="chatBody">
+            <div class="alert alert-primary shadow-sm mb-3" style="max-width: 80%; border-radius: 20px 20px 20px 0;">
+                Hello! I am ready to help you with the <strong><span id="targetTopic"></span></strong> topic.
+                I have studied the assignment details and I'm ready to guide you without going off-track. What can I explain first?
+            </div>
+        </div>
+        <div class="p-3 border-top bg-white d-flex">
+            <input type="text" class="form-control border-0 bg-light rounded-pill me-2" placeholder="Ask your tutor anything..." />
+            <button class="btn btn-primary rounded-circle"><i class="bi bi-send"></i></button>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
+    }
+
+    .list-group-item-action {
+        border: none;
+        margin-bottom: 5px;
+        border-radius: 10px !important;
+        transition: all 0.2s;
+    }
+
+        .list-group-item-action:hover {
+            background-color: #f0f7ff;
+            transform: scale(1.02);
+        }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // Step 1 -> Step 2
+            $('#courseSelect').change(function () {
+                var courseId = $(this).val();
+                if (courseId) {
+                    $('#btnToStep2').prop('disabled', false);
+                    $.getJSON('/CourseTopics/GetTopicsByCourse', { courseId: courseId }, function (data) {
+                        $('#topicSelect').empty().append('<option value="">-- Select Topic --</option>');
+                        $.each(data, function (i, item) {
+                            $('#topicSelect').append(new Option(item.name, item.id));
+                        });
+                    });
+                } else {
+                    $('#btnToStep2').prop('disabled', true);
+                }
+            });
+
+            $('#btnToStep2').click(function () {
+                $('#step1').fadeOut(400, function () {
+                    $('#step2').fadeIn().find('select').prop('disabled', false);
+                });
+            });
+
+            // Step 2 -> Step 3
+            $('#topicSelect').change(function () {
+                if ($(this).val()) $('#btnToStep3').prop('disabled', false);
+            });
+
+            $('#btnToStep3').click(function () {
+                var topicId = $('#topicSelect').val();
+                $.getJSON('/Materials/GetMaterialsByTopic', { topicId: topicId }, function (data) {
+                    var $list = $('#assignmentList');
+                    $list.empty();
+                    if(data.length === 0) {
+                        $list.append('<p class="text-center text-muted">No assignments found for this topic.</p>');
+                    }
+                    $.each(data, function (i, item) {
+                        // Clean the description to prevent JS break if it contains quotes
+                        let cleanDesc = item.description.replace(/'/g, "\\'");
+                        $list.append(`<button onclick="goToChat(${item.id}, '${item.title}', '${cleanDesc}')" class="list-group-item list-group-item-action">
+                            <h6 class="mb-1 fw-bold">${item.title}</h6>
+                            <small class="text-muted">Due: ${item.dueDate || 'N/A'}</small>
+                        </button>`);
+                    });
+                    $('#step2').fadeOut(400, function () { $('#step3').fadeIn(); });
+                });
+            });
+        });
+
+        function goToChat(id, title, desc) {
+            $('#previewTitle').text(title);
+            $('#previewDesc').text(desc);
+            $('#targetTopic').text($('#topicSelect option:selected').text());
+            $('#chatHeaderTitle').text(title + " Tutor");
+
+            $('#step3').fadeOut(400, function () {
+                $('#step4').fadeIn(400, function () {
+                    // Fake "AI Thinking" pause
+                    setTimeout(function () {
+                        $('#step4').fadeOut(400, function () {
+                            $('#chatbot').fadeIn();
+                        });
+                    }, 2500);
+                });
+            });
+        }
+    </script>
+}

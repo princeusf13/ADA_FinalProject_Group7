@@ -163,5 +163,15 @@ namespace Final_Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMaterialsByTopic(int topicId)
+        {
+            var materials = await _context.Materials
+                .Where(m => m.TopicID == topicId)
+                .Select(m => new { id = m.MaterialID, title = m.Title, description = m.Description, dueDate = m.DueDate.Value.ToShortDateString() })
+                .ToListAsync();
+            return Json(materials);
+        }
+
     }
 }
