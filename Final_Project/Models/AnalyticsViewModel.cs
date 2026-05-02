@@ -14,6 +14,14 @@
         // 4. Personal Progress (Last 7 attempts)
         public List<int> PersonalScores { get; set; }
         public List<string> PersonalDates { get; set; }
+
+        // 1. Top 3 Most Searched Topics
+        public List<ChartDataPoint> TopTopics { get; set; }
+
+        // 2. Personal AI Usage (Last 7 Days)
+        public List<int> PersonalUsageCounts { get; set; }
+        public List<string> UsageDays { get; set; }
+
     }
 }
 

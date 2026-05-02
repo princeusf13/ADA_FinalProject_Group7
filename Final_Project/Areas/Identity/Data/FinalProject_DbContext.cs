@@ -18,6 +18,7 @@ public class FinalProject_DbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Material> Materials { get; set; }
 
     public DbSet<TriviaScore> TriviaScores { get; set; }
+    public DbSet<AIInteraction> AIInteractions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

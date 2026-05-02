@@ -65,6 +65,35 @@ namespace Final_Project.Controllers
             model.PersonalScores = personalAttempts.Select(a => a.Score).ToList();
             model.PersonalDates = personalAttempts.Select(a => a.DateTaken.ToString("MM/dd")).ToList();
 
+            // 1. Top 3 Most Interacted Topics (Topic - Course format)
+            model.TopTopics = await _context.AIInteractions
+                .Include(i => i.Topic)
+                .ThenInclude(t => t.Course)
+                .GroupBy(i => new { i.Topic.Name, CourseName = i.Topic.Course.Name })
+                .Select(g => new ChartDataPoint
+                {
+                    Label = g.Key.Name + " (" + g.Key.CourseName + ")",
+                    Value = g.Count()
+                })
+                .OrderByDescending(x => x.Value)
+                .Take(3)
+                .ToListAsync();
+
+            // 2. Personal AI Use in Last 7 Days
+            var last7Days = Enumerable.Range(0, 7)
+                .Select(i => DateTime.Today.AddDays(-i))
+                .Reverse()
+                .ToList();
+
+            var userInteractions = await _context.AIInteractions
+                .Where(i => i.UserId == userId && i.InteractionDate >= DateTime.Today.AddDays(-6))
+                .ToListAsync();
+
+            model.UsageDays = last7Days.Select(d => d.ToString("ddd")).ToList(); // "Mon", "Tue", etc.
+            model.PersonalUsageCounts = last7Days
+                .Select(d => userInteractions.Count(i => i.InteractionDate.Date == d.Date))
+                .ToList();
+
             return View(model);
         }
     }

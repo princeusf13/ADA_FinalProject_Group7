@@ -10,12 +10,20 @@
 
         @if (SignInManager.IsSignedIn(User))
         {
-            <div class="col-12">
+            <div class="col-md-6">
                 <div class="glass-card p-4 rounded-4 shadow-sm">
                     <h5 class="fw-bold mb-3"><i class="bi bi-graph-up text-primary"></i> Your Recent Trivia Performance</h5>
                     <div style="height: 300px;">
                         <canvas id="personalChart"></canvas>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="glass-card p-4 rounded-4 shadow-sm h-100">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-cpu text-info"></i> Your AI Engagement</h5>
+                    <p class="small text-muted">Daily tutor interactions over the last week.</p>
+                    <canvas id="usageChart"></canvas>
                 </div>
             </div>
         }
@@ -50,12 +58,23 @@
             </div>
         </div>
 
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-6">
             <div class="glass-card p-4 rounded-4 shadow-sm">
-                <h5 class="fw-bold mb-3 text-center">Content Distribution</h5>
+                <h5 class="fw-bold mb-3">Content Distribution</h5>
                 <canvas id="materialsChart"></canvas>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="glass-card p-4 rounded-4 shadow-sm h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-fire text-danger"></i> Trending Topics</h5>
+                <p class="small text-muted">The most requested topics across all students.</p>
+                <canvas id="topTopicsChart"></canvas>
+            </div>
+        </div>
+
+        
+
     </div>
 </div>
 
@@ -101,6 +120,45 @@
                     data: @Html.Raw(Json.Serialize(Model.MaterialsByType.Select(x => x.Value))),
                     backgroundColor: ['#0dcaf0', '#ffc107']
                 }]
+            }
+        });
+
+        // 4. Top Topics - Horizontal Bar
+        new Chart(document.getElementById('topTopicsChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.TopTopics.Select(x => x.Label))),
+                datasets: [{
+                    label: 'Interactions',
+                    data: @Html.Raw(Json.Serialize(Model.TopTopics.Select(x => x.Value))),
+                    backgroundColor: ['#ff4d4d', '#ff8533', '#ffcc00'],
+                    borderRadius: 10
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Makes it horizontal
+                responsive: true
+            }
+        });
+
+        // 5. Personal AI Usage - Bar Chart
+        new Chart(document.getElementById('usageChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.UsageDays)),
+                datasets: [{
+                    label: 'Sessions',
+                    data: @Html.Raw(Json.Serialize(Model.PersonalUsageCounts)),
+                    backgroundColor: 'rgba(13, 202, 240, 0.6)',
+                    borderColor: '#0dcaf0',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
             }
         });
     </script>

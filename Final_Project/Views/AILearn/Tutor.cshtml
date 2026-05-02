@@ -130,15 +130,22 @@
             });
         });
 
-        function goToChat(id, title, desc) {
+                function goToChat(id, title, desc) {
             $('#previewTitle').text(title);
             $('#previewDesc').text(desc);
+
+            let topicId = $('#topicSelect').val(); // Get the selected topic ID
             $('#targetTopic').text($('#topicSelect option:selected').text());
             $('#chatHeaderTitle').text(title + " Tutor");
 
+            // NEW: Log the interaction to the database via AJAX
+            $.post('/AILearn/LogInteraction', { topicId: topicId, materialId: id }, function(response) {
+                console.log("Interaction logged successfully");
+            });
+
+            // Continue with the existing animations
             $('#step3').fadeOut(400, function () {
                 $('#step4').fadeIn(400, function () {
-                    // Fake "AI Thinking" pause
                     setTimeout(function () {
                         $('#step4').fadeOut(400, function () {
                             $('#chatbot').fadeIn();
