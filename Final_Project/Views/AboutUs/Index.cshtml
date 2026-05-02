@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Meet the Team";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-primary-soft rounded-pill px-3 py-2 mb-2">OUR CONTRIBUTORS</span>
+        <h1 class="display-5 fw-bold text-dark">The Minds Behind <span class="text-primary">AI Tutor</span></h1>
+        <p class="text-muted mx-auto" style="max-width: 600px;">
+            A collaborative effort from the Muma College of Business, integrating Generative AI with modern web architectures.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card h-100 p-0 overflow-hidden shadow-sm team-card">
+                <div class="member-photo-wrapper">
+                    <img src="~/images/prince.jpeg" alt="Prince Praveen" onerror="this.src='https://via.placeholder.com/300x300?text=Prince+Praveen'" class="member-photo">
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-1">Prince Praveen</h5>
+                    <p class="text-primary small fw-bold mb-3">Developer</p>
+                    <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="bi bi-cpu-fill me-2 text-primary"></i>AI Tutor Core Logic & Contextual Engine</li>
+                        <li class="mb-2"><i class="bi bi-database-fill-check me-2 text-primary"></i>Identity Security & Role Management</li>
+                        <li><i class="bi bi-cloud-arrow-up-fill me-2 text-primary"></i>Azure CI/CD Pipeline & Deployment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card h-100 p-0 overflow-hidden shadow-sm team-card">
+                <div class="member-photo-wrapper">
+                    <img src="~/images/sushma.jpeg" alt="Sushma Swaraj Padala" onerror="this.src='https://via.placeholder.com/300x300?text=Sushma+Swaraj'" class="member-photo">
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-1">Sushma Swaraj Padala</h5>
+                    <p class="text-primary small fw-bold mb-3">Developer</p>
+                    <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="bi bi-graph-up-arrow me-2 text-primary"></i>Analytics Dashboard & Chart Integration</li>
+                        <li class="mb-2"><i class="bi bi-layout-text-window me-2 text-primary"></i>Course Management CRUD Systems</li>
+                        <li><i class="bi bi-code-slash me-2 text-primary"></i>Database Schema Design & Migrations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card h-100 p-0 overflow-hidden shadow-sm team-card">
+                <div class="member-photo-wrapper">
+                    <img src="~/images/harshitha.jpg" alt="Harshitha Neerudu" onerror="this.src='https://via.placeholder.com/300x300?text=Harshitha+N'" class="member-photo">
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-1">Harshitha Neerudu</h5>
+                    <p class="text-primary small fw-bold mb-3">Developer</p>
+                    <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="bi bi-controller me-2 text-primary"></i>Trivia API Consumption & Logic</li>
+                        <li class="mb-2"><i class="bi bi-magic me-2 text-primary"></i>Glassmorphism UI Theme Architecture</li>
+                        <li><i class="bi bi-check-circle-fill me-2 text-primary"></i>Client-side Validation & AJAX Flows</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="glass-card h-100 p-0 overflow-hidden shadow-sm team-card">
+                <div class="member-photo-wrapper">
+                    <img src="~/images/koushik.jpg" alt="Koushik Devalapalli" onerror="this.src='https://via.placeholder.com/300x300?text=Koushik+D'" class="member-photo">
+                </div>
+                <div class="p-4">
+                    <h5 class="fw-bold mb-1">Koushik Devalapalli</h5>
+                    <p class="text-primary small fw-bold mb-3">Developer</p>
+                    <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="bi bi-chat-dots-fill me-2 text-primary"></i>AILearn Onboarding & Wizard Flow</li>
+                        <li class="mb-2"><i class="bi bi-shield-check me-2 text-primary"></i>Input Sanitization & Data Safety</li>
+                        <li><i class="bi bi-server me-2 text-primary"></i>Asynchronous API Data Handling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .team-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 20px !important;
+    }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+        }
+
+    .member-photo-wrapper {
+        height: 250px;
+        overflow: hidden;
+        background: #f8f9fa;
+    }
+
+    .member-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .team-card:hover .member-photo {
+        transform: scale(1.1);
+    }
+
+    .bg-primary-soft {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    ul li {
+        display: flex;
+        align-items: flex-start;
+    }
+</style>
