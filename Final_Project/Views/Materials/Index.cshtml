@@ -1,11 +1,18 @@
 ﻿@model IEnumerable<Final_Project.Models.Material>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Final_Project.Areas.Identity.Data.ApplicationUser> SignInManager
+@inject UserManager<Final_Project.Areas.Identity.Data.ApplicationUser> UserManager
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-dark">Learning Materials</h2>
-        <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
-            <i class="bi bi-plus-lg"></i> New Material
-        </a>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Professor"))
+        {
+            <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
+                <i class="bi bi-plus-lg"></i> New Material
+            </a>
+        }
+        
     </div>
 
     <div class="glass-card p-3 mb-4 rounded-4 shadow-sm">
@@ -29,6 +36,8 @@
                     <th>Material Title</th>
                     <th>Due Date</th>
                     <th class="text-end pe-4">Actions</th>
+               
+                    
                 </tr>
             </thead>
             <tbody>
@@ -59,14 +68,19 @@
                                     <h6><strong>Description / Instructions:</strong></h6>
                                     <p class="text-secondary">@item.Description</p>
                                 </div>
-                                <div class="col-md-4 text-end">
-                                    <p><strong>Points:</strong> @item.Points</p>
-                                    <p><strong>Created:</strong> @item.CreatedAt.ToShortDateString()</p>
-                                    <div class="mt-3">
-                                        <a asp-action="Edit" asp-route-id="@item.MaterialID" class="btn btn-sm btn-warning">Edit</a>
-                                        <a asp-action="Delete" asp-route-id="@item.MaterialID" class="btn btn-sm btn-danger">Delete</a>
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Professor"))
+                                {
+                                    <div class="col-md-4 text-end">
+                                        <p><strong>Points:</strong> @item.Points</p>
+                                        <p><strong>Created:</strong> @item.CreatedAt.ToShortDateString()</p>
+                                        <div class="mt-3">
+                                            <a asp-action="Edit" asp-route-id="@item.MaterialID" class="btn btn-sm btn-warning">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.MaterialID" class="btn btn-sm btn-danger">Delete</a>
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                
+
                             </div>
                         </td>
                     </tr>
