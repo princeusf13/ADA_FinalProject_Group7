@@ -63,10 +63,10 @@ This project is fully automated using **GitHub Actions**.
 
 ## 👥 The Team (USF Muma College of Business)
 
-- **Prince Praveen:** Lead AI & Systems Architect
-- **Sushma Swaraj Padala:** Full Stack Data Engineer
-- **Harshitha Neerudu:** Product & UX Engineer
-- **Koushik Devalapalli:** System Logic Developer
+- **Prince Praveen:**
+- **Sushma Swaraj Padala:** 
+- **Harshitha Neerudu:** 
+- **Koushik Devalapalli:** 
 
 ---
 
