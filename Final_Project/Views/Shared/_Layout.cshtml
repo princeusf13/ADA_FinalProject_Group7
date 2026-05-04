@@ -82,7 +82,7 @@
                     <span class="bg-primary text-white p-1 rounded me-2">
                         <i class="bi bi-cpu-fill" style="font-size: 1.2rem;"></i>
                     </span>
-                    <span class="tracking-tight text-dark">AI TUTOR</span>
+                    <span class="tracking-tight text-dark">StudySense AI</span>
                 </a>
 
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain"
@@ -109,34 +109,37 @@
                         }
 
                         
-                            
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle fw-semibold text-secondary px-3" href="#" id="assignmentsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Assignments
-                                </a>
-                                <ul class="dropdown-menu shadow-sm border-0 mt-2" aria-labelledby="assignmentsDropdown">
-                                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Professor")))
-                                    {
-                                        <li>
-                                            <a class="dropdown-item py-2" asp-area="" asp-controller="Courses" asp-action="Index">
-                                                <i class="bi bi-book me-2 text-primary"></i> Courses
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item py-2" asp-area="" asp-controller="CourseTopics" asp-action="Index">
-                                                <i class="bi bi-tags me-2 text-primary"></i> Topics
-                                            </a>
-                                        </li>
-                                    }
-                                    
-                                    <li>
-                                        <a class="dropdown-item py-2" asp-area="" asp-controller="Materials" asp-action="Index">
-                                            <i class="bi bi-tags me-2 text-primary"></i> Assignments
-                                        </a>
-                                    </li>
+                            @if (SignInManager.IsSignedIn(User))
+                            { 
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-semibold text-secondary px-3" href="#" id="assignmentsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Assignments
+                                    </a>
+                                    <ul class="dropdown-menu shadow-sm border-0 mt-2" aria-labelledby="assignmentsDropdown">
+                                        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Professor")))
+                                        {
+                                            <li>
+                                                <a class="dropdown-item py-2" asp-area="" asp-controller="Courses" asp-action="Index">
+                                                    <i class="bi bi-book me-2 text-primary"></i> Courses
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item py-2" asp-area="" asp-controller="CourseTopics" asp-action="Index">
+                                                    <i class="bi bi-tags me-2 text-primary"></i> Topics
+                                                </a>
+                                            </li>
+                                        }
 
-                                </ul>
-                            </li>
+                                        <li>
+                                            <a class="dropdown-item py-2" asp-area="" asp-controller="Materials" asp-action="Index">
+                                                <i class="bi bi-tags me-2 text-primary"></i> Assignments
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            }
+                            
                             
 
                         <li class="nav-item">
